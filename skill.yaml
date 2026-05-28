@@ -1,0 +1,37 @@
+name: invoomen
+title: Invoomen AI Studio
+description: >
+  Generate cinematic images, videos, music, and audio with Invoomen's full
+  model catalog (Seedream, Sora 2 Pro, Wan 2.7, Kling, Suno, ElevenLabs, ...).
+  Reference saved characters and elements by @name. Bills your existing
+  Invoomen workspace credits.
+version: 0.1.0
+license: MIT
+homepage: https://invoomen.com/skills
+repository: https://github.com/invoomen/skills
+
+# Slash commands exposed when the skill is installed.
+commands:
+  - name: generate
+    description: Generate an image, video, music track, or audio clip.
+    file: ./commands/generate.skill.md
+  - name: status
+    description: Show recent generations and credit balance.
+    file: ./commands/status.skill.md
+  - name: characters
+    description: List saved characters and elements available on this account.
+    file: ./commands/characters.skill.md
+
+# The skill leans on the Invoomen MCP server for actual generation calls.
+# Users supply the bearer token via `invoomen auth login` (from @invoomen/cli)
+# or by editing the skill's local config.
+mcp:
+  servers:
+    invoomen:
+      type: http
+      url: https://invoomen.com/api/mcp
+      # The Authorization header is filled in at install time from the
+      # user's @invoomen/cli config (~/.invoomen/config.json). If the CLI
+      # is not installed, the user can edit this file by hand.
+      headers_template:
+        Authorization: "Bearer {INVOOMEN_API_KEY}"
